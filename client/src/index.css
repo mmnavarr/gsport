@@ -1,0 +1,198 @@
+/* Import CS16 CSS */
+@import url('https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'ArialPixel';
+  src: url('/fonts/ArialPixel.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-gray-50 text-foreground;
+    font-family: 'ArialPixel', system-ui, sans-serif;
+  }
+
+  /* Documentation styles */
+  pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  code {
+    color: #476582;
+  }
+}
+
+/* Additional CS16 custom styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Documentation component styles */
+.component-preview {
+  padding: 2rem;
+  border-radius: 0.5rem;
+  background: white;
+  margin: 1rem 0;
+}
+
+.props-table th,
+.props-table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.props-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Override CS16 components with ArialPixel font */
+.cs-btn,
+.cs-input,
+.cs-select,
+.cs-checkbox__label,
+.cs-input__label,
+.cs-select__label,
+.cs-fieldset legend,
+.cs-fieldset label,
+.cs-slider label,
+.cs-dialog .heading .text,
+.cs-tooltip,
+.cs-tabs .label {
+  font-family: 'ArialPixel', system-ui, sans-serif !important;
+}
+
+/* Improve select dropdown visibility */
+.cs-select {
+  color: white !important;
+}
+
+.cs-select option {
+  background-color: #4c5844;
+  color: white;
+}
+
+.cs-select:focus {
+  color: white !important;
+}
+
+/* New component styles */
+.cs-card {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 1rem;
+}
+
+.cs-card--bordered {
+  border: 1px solid #3f3f3f;
+}
+
+.cs-card__header {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #3f3f3f;
+  margin-bottom: 1rem;
+}
+
+.cs-card__footer {
+  padding-top: 0.5rem;
+  border-top: 1px solid #3f3f3f;
+  margin-top: 1rem;
+}
+
+.cs-alert {
+  padding: 1rem;
+  border: 1px solid;
+  margin-bottom: 1rem;
+}
+
+.cs-alert__title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.cs-alert--info {
+  background: #2f3f4f;
+  border-color: #4f5f6f;
+  color: #fff;
+}
+
+.cs-alert--success {
+  background: #2f4f3f;
+  border-color: #4f6f5f;
+  color: #fff;
+}
+
+.cs-alert--warning {
+  background: #4f4f2f;
+  border-color: #6f6f4f;
+  color: #fff;
+}
+
+.cs-alert--error {
+  background: #4f2f2f;
+  border-color: #6f4f4f;
+  color: #fff;
+}
+
+.cs-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.cs-badge--default {
+  background: #3f3f3f;
+  color: #fff;
+}
+
+.cs-badge--primary {
+  background: #2f3f4f;
+  color: #fff;
+}
+
+.cs-badge--success {
+  background: #2f4f3f;
+  color: #fff;
+}
+
+.cs-badge--warning {
+  background: #4f4f2f;
+  color: #fff;
+}
+
+.cs-badge--error {
+  background: #4f2f2f;
+  color: #fff;
+}
+
+.cs-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cs-nav--vertical {
+  flex-direction: column;
+}
+
+.cs-nav__item {
+  text-decoration: none;
+}
+
+.cs-nav__item--active {
+  background: #4f4f4f;
+}
