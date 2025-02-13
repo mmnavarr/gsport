@@ -1,0 +1,323 @@
+/* Import CS16 CSS */
+@import url("https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: "ArialPixel";
+	src: url("/fonts/ArialPixel.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@layer base {
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 222.2 84% 4.9%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 222.2 84% 4.9%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 222.2 84% 4.9%;
+
+		--primary: 222.2 47.4% 11.2%;
+		--primary-foreground: 210 40% 98%;
+
+		--secondary: 210 40% 96.1%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+
+		--muted: 210 40% 96.1%;
+		--muted-foreground: 215.4 16.3% 46.9%;
+
+		--accent: 210 40% 96.1%;
+		--accent-foreground: 222.2 47.4% 11.2%;
+
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 210 40% 98%;
+
+		--border: 214.3 31.8% 91.4%;
+		--input: 214.3 31.8% 91.4%;
+		--ring: 222.2 84% 4.9%;
+
+		--radius: 0.5rem;
+	}
+
+	.dark {
+		--background: 222.2 84% 4.9%;
+		--foreground: 210 40% 98%;
+
+		--card: 222.2 84% 4.9%;
+		--card-foreground: 210 40% 98%;
+
+		--popover: 222.2 84% 4.9%;
+		--popover-foreground: 210 40% 98%;
+
+		--primary: 210 40% 98%;
+		--primary-foreground: 222.2 47.4% 11.2%;
+
+		--secondary: 217.2 32.6% 17.5%;
+		--secondary-foreground: 210 40% 98%;
+
+		--muted: 217.2 32.6% 17.5%;
+		--muted-foreground: 215 20.2% 65.1%;
+
+		--accent: 217.2 32.6% 17.5%;
+		--accent-foreground: 210 40% 98%;
+
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 210 40% 98%;
+
+		--border: 217.2 32.6% 17.5%;
+		--input: 217.2 32.6% 17.5%;
+		--ring: 212.7 26.8% 83.9%;
+	}
+
+	* {
+		@apply border-border;
+	}
+
+	body {
+		@apply bg-background text-foreground antialiased;
+		font-family: "ArialPixel", system-ui, sans-serif;
+	}
+
+	/* Documentation styles */
+	pre {
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+			monospace;
+		font-size: 0.9em;
+		line-height: 1.5;
+	}
+
+	code {
+		color: #476582;
+	}
+}
+
+/* Additional CS16 custom styles */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+/* Documentation component styles */
+.component-preview {
+	padding: 2rem;
+	border-radius: 0.5rem;
+	background: white;
+	margin: 1rem 0;
+}
+
+.props-table th,
+.props-table td {
+	padding: 0.75rem;
+	text-align: left;
+}
+
+.props-table th {
+	background-color: #f8f9fa;
+	font-weight: 600;
+}
+
+/* Override CS16 components with ArialPixel font */
+.cs-btn,
+.cs-input,
+.cs-select,
+.cs-checkbox__label,
+.cs-input__label,
+.cs-select__label,
+.cs-fieldset legend,
+.cs-fieldset label,
+.cs-slider label,
+.cs-dialog .heading .text,
+.cs-tooltip,
+.cs-tabs .label {
+	font-family: "ArialPixel", system-ui, sans-serif !important;
+}
+
+/* Improve select dropdown visibility */
+.cs-select {
+	color: white !important;
+}
+
+.cs-select option {
+	background-color: #4c5844;
+	color: white;
+}
+
+.cs-select:focus {
+	color: white !important;
+}
+
+/* New component styles */
+.cs-card {
+	background: #1e1e1e;
+	color: #fff;
+	padding: 1rem;
+}
+
+.cs-card--bordered {
+	border: 1px solid #3f3f3f;
+}
+
+.cs-card__header {
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid #3f3f3f;
+	margin-bottom: 1rem;
+}
+
+.cs-card__footer {
+	padding-top: 0.5rem;
+	border-top: 1px solid #3f3f3f;
+	margin-top: 1rem;
+}
+
+.cs-alert {
+	padding: 1rem;
+	border: 1px solid;
+	margin-bottom: 1rem;
+}
+
+.cs-alert__title {
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+}
+
+.cs-alert--info {
+	background: #2f3f4f;
+	border-color: #4f5f6f;
+	color: #fff;
+}
+
+.cs-alert--success {
+	background: #2f4f3f;
+	border-color: #4f6f5f;
+	color: #fff;
+}
+
+.cs-alert--warning {
+	background: #4f4f2f;
+	border-color: #6f6f4f;
+	color: #fff;
+}
+
+.cs-alert--error {
+	background: #4f2f2f;
+	border-color: #6f4f4f;
+	color: #fff;
+}
+
+.cs-badge {
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+	font-size: 0.875rem;
+	display: inline-block;
+}
+
+.cs-badge--default {
+	background: #3f3f3f;
+	color: #fff;
+}
+
+.cs-badge--primary {
+	background: #2f3f4f;
+	color: #fff;
+}
+
+.cs-badge--success {
+	background: #2f4f3f;
+	color: #fff;
+}
+
+.cs-badge--warning {
+	background: #4f4f2f;
+	color: #fff;
+}
+
+.cs-badge--error {
+	background: #4f2f2f;
+	color: #fff;
+}
+
+.cs-nav {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.cs-nav--vertical {
+	flex-direction: column;
+}
+
+.cs-nav__item {
+	text-decoration: none;
+}
+
+.cs-nav__item--active {
+	background: #4f4f4f;
+}
+
+/* Progress Bar styles */
+.cs-progress-bar {
+	width: 100%;
+	height: 24px;
+	background: #4c5844;
+	border: 2px solid #000000;
+	position: relative;
+	overflow: hidden;
+}
+
+.cs-progress-bar .bars {
+	height: 100%;
+	position: relative;
+	background: repeating-linear-gradient(
+		90deg,
+		#ffd700,
+		#ffd700 4px,
+		#4c5844 4px,
+		#4c5844 8px
+	);
+	transition: width 0.3s ease;
+}
+
+/* Tabs styles */
+.cs-tabs {
+	width: 100%;
+}
+
+.cs-tabs-list {
+	display: flex;
+	gap: 1px;
+	margin-bottom: -2px;
+}
+
+.cs-tab-trigger {
+	padding: 8px 16px;
+	background: #4c5844;
+	color: #ffffff;
+	border: 2px solid #000000;
+	font-family: "ArialPixel", system-ui, sans-serif;
+	cursor: pointer;
+	position: relative;
+	z-index: 1;
+}
+
+.cs-tab-trigger.active {
+	background: #5d6d54;
+	border-bottom-color: #5d6d54;
+}
+
+.cs-tab-trigger:hover:not(.active) {
+	background: #556149;
+}
+
+.cs-tab-content {
+	background: #5d6d54;
+	border: 2px solid #000000;
+	padding: 16px;
+	min-height: 100px;
+	position: relative;
+}

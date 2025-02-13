@@ -1,4 +1,5 @@
-import { HTMLAttributes, forwardRef } from 'react';
+import type { HTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
@@ -7,9 +8,17 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
   ({ className, progress, ...props }, ref) => {
+    // Ensure progress is between 0 and 100
+    const clampedProgress = Math.min(Math.max(progress, 0), 100);
+    
     return (
       <div ref={ref} className={cn('cs-progress-bar', className)} {...props}>
-        <div className="bars" style={{ width: `${progress}%` }} />
+        <div 
+          className="bars" 
+          style={{ 
+            width: `${clampedProgress}%`,
+          }} 
+        />
       </div>
     );
   }

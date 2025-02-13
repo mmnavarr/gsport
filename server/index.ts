@@ -1,71 +1,86 @@
-import express, { type Request, type Response, type NextFunction } from "express";
-import { registerRoutes } from "./routes";
+import express from "express";
 import { setupVite, serveStatic, log } from "./vite";
+import { createServer } from "node:http";
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+async function startServer(appType: "ui-kit" | "web-app", port: number) {
+  const app = express();
+  const server = createServer(app);
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
 
-  const originalResJson = res.json;
-  res.json = (bodyJson, ...args) => {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = `${logLine.slice(0, 79)}…`;
-      }
-
-      log(logLine);
-    }
-  });
-
-  next();
-});
-
-(async () => {
-  const server = registerRoutes(app);
-
-  app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err instanceof Error ? 500 : 500;
-    const message = err instanceof Error ? err.message : "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
-  });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+  // Add CORS headers for development
+  if (process.env.NODE_ENV !== "production") {
+    app.use((_, res, next) => {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
   }
 
-  // Use process.env.PORT if available, otherwise default to 5000
-  const PORT = process.env.PORT || 5000;
-  server.listen(PORT, "localhost", () => {
-    log(`serving on port ${PORT}`);
-  }).on('error', (e) => {
-    if (e instanceof Error && 'code' in e && e.code === 'EADDRINUSE') {
-      log(`Port ${PORT} is already in use. Please try another port.`);
-      process.exit(1);
-    } else {
-      throw e;
-    }
+  // Logging middleware
+  app.use((req, res, next) => {
+    const start = Date.now();
+    const path = req.path;
+    let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
+
+    const originalResJson = res.json;
+    res.json = (bodyJson, ...args) => {
+      capturedJsonResponse = bodyJson;
+      return originalResJson.apply(res, [bodyJson, ...args]);
+    };
+
+    res.on("finish", () => {
+      const duration = Date.now() - start;
+      if (path.startsWith("/api")) {
+        let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+        if (capturedJsonResponse) {
+          logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+        }
+
+        if (logLine.length > 80) {
+          logLine = `${logLine.slice(0, 79)}…`;
+        }
+
+        log(logLine);
+      }
+    });
+
+    next();
   });
-})();
+
+  try {
+    if (process.env.NODE_ENV === "production") {
+      serveStatic(app, appType);
+    } else {
+      await setupVite(app, server, appType);
+    }
+
+    return new Promise((resolve, reject) => {
+      server.listen(port, () => {
+        log(`${appType} server started on http://localhost:${port}`);
+        resolve(server);
+      }).on('error', (error: NodeJS.ErrnoException) => {
+        if (error.code === 'EADDRINUSE') {
+          log(`Port ${port} is already in use. Please try another port or stop the existing process.`);
+        } else {
+          log(`Failed to start ${appType} server: ${error.message}`);
+        }
+        reject(error);
+      });
+    });
+  } catch (error) {
+    log(`Error setting up ${appType} server: ${error}`);
+    throw error;
+  }
+}
+
+// Start both servers
+Promise.all([
+  startServer("ui-kit", 5173),
+  startServer("web-app", 3000),
+]).catch((error) => {
+  console.error("Failed to start servers:", error);
+  process.exit(1);
+});

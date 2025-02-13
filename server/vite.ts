@@ -6,7 +6,6 @@ import { createServer as createViteServer, createLogger, type ServerOptions } fr
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import type { Server } from "node:http";
-import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
 
 const viteLogger = createLogger();
@@ -22,12 +21,17 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-export async function setupVite(app: Express, server: Server) {
+type AppType = "ui-kit" | "web-app";
+
+export async function setupVite(app: Express, server: Server, appType: AppType) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
     allowedHosts: true,
   };
+
+  const viteConfigPath = path.resolve(__dirname, "..", appType, "vite.config.ts");
+  const viteConfig = (await import(viteConfigPath)).default;
 
   const vite = await createViteServer({
     ...viteConfig,
@@ -48,20 +52,20 @@ export async function setupVite(app: Express, server: Server) {
     const url = req.originalUrl;
 
     try {
-      const clientTemplate = path.resolve(
+      const template = path.resolve(
         __dirname,
         "..",
-        "client",
+        appType,
         "index.html",
       );
 
       // always reload the index.html file from disk incase it changes
-      let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
+      let html = await fs.promises.readFile(template, "utf-8");
+      html = html.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
-      const page = await vite.transformIndexHtml(url, template);
+      const page = await vite.transformIndexHtml(url, html);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
@@ -70,12 +74,12 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
-export function serveStatic(app: Express) {
-  const distPath = path.resolve(__dirname, "public");
+export function serveStatic(app: Express, appType: AppType) {
+  const distPath = path.resolve(__dirname, "..", "dist", appType);
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
+      `Could not find the build directory: ${distPath}, make sure to build the ${appType} first`,
     );
   }
 
