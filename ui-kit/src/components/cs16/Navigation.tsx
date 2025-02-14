@@ -1,4 +1,4 @@
-import { HTMLAttributes, forwardRef } from 'react';
+import { type HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import Button from './Button';
 
@@ -25,14 +25,16 @@ const Navigation = forwardRef<HTMLElement, NavigationProps>(
         )}
         {...props}
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <Button
-            key={index}
+            key={item.href}
             className={cn(
               'cs-nav__item',
               item.active && 'cs-nav__item--active'
             )}
-            onClick={() => window.location.href = item.href}
+            onClick={() => {
+              window.location.href = item.href;
+            }}
           >
             {item.label}
           </Button>
