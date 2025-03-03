@@ -23,11 +23,14 @@ export default function ButtonsShowcase() {
                 title="Default Button"
                 description="The standard CS16 button with hover and active states."
                 code={`<Button>Click Me</Button>
-<Button disabled>Disabled</Button>`}
+<Button disabled>Disabled</Button>
+<Button active>Active</Button>`}
               >
                 <div className="flex flex-wrap gap-4">
                   <Button>Click Me</Button>
                   <Button disabled>Disabled</Button>
+                  <Button active>Active</Button>
+                  <Button loading>Loading</Button>
                 </div>
               </ComponentExample>
 
@@ -62,20 +65,6 @@ export default function ButtonsShowcase() {
                   <Button size="small">Small</Button>
                   <Button>Default</Button>
                   <Button size="large">Large</Button>
-                </div>
-              </ComponentExample>
-
-              <ComponentExample
-                title="Button Variants"
-                description="Different button styles for different purposes."
-                code={`<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="danger">Danger</Button>`}
-              >
-                <div className="flex flex-wrap gap-4">
-                  <Button variant="primary">Primary</Button>
-                  <Button variant="secondary">Secondary</Button>
-                  <Button variant="danger">Danger</Button>
                 </div>
               </ComponentExample>
             </div>

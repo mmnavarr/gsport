@@ -39,9 +39,25 @@ export function StoryLayout({ children }: StoryLayoutProps) {
           </nav>
         </div>
       </header>
-      <main className="container mx-auto px-4 py-8" style={{ marginTop: 20 }}>
+      <main className="container mx-auto px-4 py-8" style={{ marginTop: 20, marginBottom: 40 }}>
         {children}
       </main>
+      <footer className="py-8">
+        <div className="container mx-auto px-4 py-4 text-center text-sm text-muted-foreground">
+          <span className="font-mono">
+            /* hacked together with 🍕 and ☕️ by{' '}
+            <a 
+              href="https://twitter.com/mxlcolm" 
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="text-primary hover:text-primary/80 hover:underline"
+            >
+              @mxlcolm
+            </a>{' '}
+            */
+          </span>
+        </div>
+      </footer>
     </div>
   );
 } 
