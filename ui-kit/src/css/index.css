@@ -1,5 +1,4 @@
-/* Import CS16 CSS */
-@import url("https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css");
+@import "./base.css";
 
 @tailwind base;
 @tailwind components;
@@ -121,36 +120,6 @@
 .props-table th {
 	background-color: #f8f9fa;
 	font-weight: 600;
-}
-
-/* Override CS16 components with ArialPixel font */
-.cs-btn,
-.cs-input,
-.cs-select,
-.cs-checkbox__label,
-.cs-input__label,
-.cs-select__label,
-.cs-fieldset legend,
-.cs-fieldset label,
-.cs-slider label,
-.cs-dialog .heading .text,
-.cs-tooltip,
-.cs-tabs .label {
-	font-family: "ArialPixel", system-ui, sans-serif !important;
-}
-
-/* Improve select dropdown visibility */
-.cs-select {
-	color: white !important;
-}
-
-.cs-select option {
-	background-color: #4c5844;
-	color: white;
-}
-
-.cs-select:focus {
-	color: white !important;
 }
 
 /* New component styles */
@@ -320,4 +289,48 @@
 	padding: 16px;
 	min-height: 100px;
 	position: relative;
+}
+
+.cs-input-wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+}
+
+.cs-input {
+	font-size: 1rem;
+	transition: all 0.2s ease;
+}
+
+.cs-input--error {
+	border-color: #e53935;
+}
+
+.cs-input__label {
+	color: #666;
+	transition: all 0.2s ease;
+}
+
+.cs-input__label--active {
+	color: #4a90e2;
+}
+
+.cs-input__label--error {
+	color: #e53935;
+}
+
+.cs-input__error-message {
+	font-size: 0.75rem;
+	color: #e53935;
+	margin-top: 0.25rem;
+}
+
+.active-btn {
+	border-color: var(--border-dark) var(--border-light) var(--border-light)
+		var(--border-dark) !important;
+	color: #d4af37 !important; /* Gold color for active state */
+	transform: translateY(1px);
+	box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.3);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
